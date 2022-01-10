@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cash</title>
+    <title>ĐẾM TIỀN</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
@@ -15,48 +15,16 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #485461;
-            background-image: linear-gradient(0deg, #28313b -50%, #485461 100%);
-            min-height: 100vh;
+            font-size: 24px;
+            background: rgb(44, 48, 52);
+            background: radial-gradient(circle, rgba(44, 48, 52, 1) 0%, rgba(33, 37, 41, 1) 100%);
             margin-bottom: 0px;
         }
 
-        th {
-            font-size: 24px;
-        }
-
-        tr td {
-            background: #34495e;
-            font-size: 24px;
-            font-weight: 500;
-            text-align: left;
-            vertical-align: middle !important;
-
-        }
-
-        thead tr {
-            color: #eb4d4b;
-        }
-
-        .menhgia {
-            font-weight: 600;
-            color: #f6b93b;
-        }
-
-        .tienchu {
-            font-weight: 400;
-            font-size: 17px;
-        }
-
-        .btn-dark {
-            font-weight: 600;
-            color: #f6b93b;
-            border-top: 0px;
-            border-right: 0px;
-        }
-
-        .btn-dark:hover {
-            color: #eb4d4b;
+        input:focus {
+            border: #f6b93b 1px solid;
+            box-shadow: inset 0 0 0.5em 0 #f6b93b, 0 0 0.5em 0 #f6b93b !important;
+            transition: all 0.25s
         }
 
         input[type="number"] {
@@ -75,11 +43,79 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        input::placeholder {
+            color: white !important;
+        }
+
+        tr td {
+            background: #34495e;
+            font-weight: 500;
+            text-align: left;
+            vertical-align: middle !important;
+        }
+
+        tr td:hover {
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+        }
+
+        thead th {
+            color: #eb4d4b;
+            padding: 5px !important;
+
+        }
+
+        thead th:hover {
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+        }
+
+        table {
+            box-shadow: 0 0 0.2em 0 #f6b93b, 0 0 0.2em 0 #f6b93b;
+        }
+
+        .section-content {
+            min-height: 95vh;
+        }
+
+        .menhgia {
+            font-weight: 600;
+            color: #f6b93b;
+        }
+
+        .tienchu {
+            font-weight: 400;
+            font-size: 17px;
+        }
+
+        .btn-dark {
+            font-weight: 600;
+            color: #f6b93b;
+            border: #f6b93b 1px solid;
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+            box-shadow: inset 0 0 0.2em 0 #f6b93b, 0 0 0.2em 0 #f6b93b;
+        }
+
+        .btn-dark:hover {
+            color: #f6b93b;
+            border: #f6b93b 1px solid;
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+            box-shadow: inset 0 0 0.5em 0 #f6b93b, 0 0 0.5em 0 #f6b93b;
+        }
+
+        @media (max-width: 575px) {
+            body {
+                font-size: 20px;
+            }
+
+            .form-control {
+                padding: 0.275rem 0.25rem;
+            }
+        }
     </style>
 </head>
 
 <?php
-$arr1 = [
+$list_menhgia = [
     'c500' => '500,000',
     'c200' => '200,000',
     'c100' => '100,000',
@@ -90,20 +126,18 @@ $arr1 = [
     'c2' => '2,000',
     'c1' => '1,000'
 ];
-$arr2 = [
-    'thu' => ['Thu', ''],
-    'nhan' => ['Nhận', 'disabled'],
-    'thua' => ['Thừa', 'disabled'],
-];
 ?>
 
 <body>
-    <div class="container py-2">
+    <div class="section-content container pt-4">
         <div class="row">
             <div class="col-lg-1">
-                <div class="d-flex justify-content-center">
-                    <button id="clear" class="btn btn-dark"><span>Xóa</span></button>
+                <div class="text-center">
+                    <button id="clear" class="btn btn-dark mb-3">
+                        <span>ESC</span>
+                    </button>
                 </div>
+
             </div>
             <div class="col-lg-4">
                 <table class="table table-striped table-dark table-bordered table-sm">
@@ -115,10 +149,10 @@ $arr2 = [
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($arr1 as $key => $value) {
+                        foreach ($list_menhgia as $key => $value) {
                             echo '<tr>
                                 <td class="menhgia text-right">' . $value . '</td>
-                                <td><input type="number" class="form-control" id="' . $key . '" value="0"></td>
+                                <td><input type="number" class="form-control" id="' . $key . '" placeholder="0"></td>
                             </tr>';
                         }
                         ?>
@@ -137,28 +171,31 @@ $arr2 = [
                         <tr>
                             <td class="menhgia">Thu</td>
                             <td>
-                                <input type="number" class="form-control" id="c-thu" value="0">
-                                <span class="tienchu text-left" id="thu"></span>
+                                <input type="number" class="form-control" id="c-thu" placeholder="0">
+                                <span class="tienchu text-left" id="text-thu"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="menhgia">Nhận</td>
                             <td>
                                 <span id="c-nhan">0</span></br>
-                                <span class="tienchu text-left" id="nhan"></span>
+                                <span class="tienchu text-left" id="text-nhan"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="menhgia">Thừa</td>
                             <td>
                                 <span id="c-thua">0</span></br>
-                                <span class="tienchu text-left" id="thua"></span>
+                                <span class="tienchu text-left" id="text-thua"></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
+    <div class="text-center container">
+        <p class="fw-bold" style="color: #e63946; font-size: 0.75rem">Author:<span class="text-warning fw-normal ms-1">Nguyễn Ngọc Minh - 0936454609</span></p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -268,16 +305,16 @@ $arr2 = [
     })
 
     function clear() {
-        $('#c-thu').val(0)
-        $('#c500').val(0)
-        $('#c200').val(0)
-        $('#c100').val(0)
-        $('#c50').val(0)
-        $('#c20').val(0)
-        $('#c10').val(0)
-        $('#c5').val(0)
-        $('#c2').val(0)
-        $('#c1').val(0)
+        $('#c-thu').val('')
+        $('#c500').val('')
+        $('#c200').val('')
+        $('#c100').val('')
+        $('#c50').val('')
+        $('#c20').val('')
+        $('#c10').val('')
+        $('#c5').val('')
+        $('#c2').val('')
+        $('#c1').val('')
         updateStore.dispatch({
             type: 'CLEAR'
         });
@@ -389,7 +426,7 @@ $arr2 = [
         var c2 = ('c2' in cashs) ? cashs['c2'] : 0;
         var c1 = ('c1' in cashs) ? cashs['c1'] : 0;
 
-        total = +(500000 * c500) +
+        c_nhan = (500000 * c500) +
             (200000 * c200) +
             (100000 * c100) +
             (50000 * c50) +
@@ -399,21 +436,21 @@ $arr2 = [
             (2000 * c2) +
             (1000 * c1)
 
-        c_thua = total - c_thu
+        c_thua = c_nhan - c_thu
 
         function formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
         }
 
-        $('#c-nhan').html(formatNumber(total))
+        $('#c-nhan').html(formatNumber(c_nhan))
         $('#c-thua').html(formatNumber(c_thua))
 
-        $('#thu').html(dmcs(c_thu))
-        $('#nhan').html(dmcs(total))
-        $('#thua').html(dmcs(c_thua))
+        $('#text-thu').html(chuyenso(c_thu))
+        $('#text-nhan').html(chuyenso(c_nhan))
+        $('#text-thua').html(chuyenso(c_thua))
     }
 
-    function dmcs(conso) {
+    function chuyenso(conso) {
         function light(str) {
             return '<span class="text-warning"> ' + str + '</span>'
         }
