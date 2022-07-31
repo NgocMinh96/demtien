@@ -152,7 +152,7 @@ $list_menhgia = [
                         foreach ($list_menhgia as $key => $value) {
                             echo '<tr>
                                 <td class="menhgia text-right">' . $value . '</td>
-                                <td><input type="number" class="form-control" id="' . $key . '" placeholder="0"></td>
+                                <td><input type="number" name="menhgia" class="form-control" id="' . $key . '" data-type="' . $key . '" placeholder="0"></td>
                             </tr>';
                         }
                         ?>
@@ -171,7 +171,7 @@ $list_menhgia = [
                         <tr>
                             <td class="menhgia">Thu</td>
                             <td>
-                                <input type="number" class="form-control" id="c-thu" placeholder="0">
+                                <input type="number" name="c_thu" class="form-control" id="c_thu" placeholder="0">
                                 <span class="tienchu text-left" id="text-thu"></span>
                             </td>
                         </tr>
@@ -203,120 +203,38 @@ $list_menhgia = [
 </body>
 
 <script>
-    $('#c500').bind("keyup change", function(e) {
+    $('input[type="number"]').on('keypress', function(e) {
+        if (e.which != 8 && e.which != 0 && e.which < 48 || e.which > 57) {
+            e.preventDefault();
+        }
+    })
+    $('input[name="menhgia"]').bind('keyup change', function(e) {
         if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
             var val = $(this).val()
         }
         val = $(this).val()
+        var type = 'update_' + $(this).data('type');
         updateStore.dispatch({
-            type: 'UPDATE_C500',
-            c500: val
+            type: type,
+            soto: val
         });
     })
-    $('#c200').bind("keyup change", function(e) {
+    $('input[name="c_thu"]').bind("keyup change", function(e) {
         if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
             var val = $(this).val()
         }
         val = $(this).val()
         updateStore.dispatch({
-            type: 'UPDATE_C200',
-            c200: val
-        });
-    })
-    $('#c100').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C100',
-            c100: val
-        });
-    })
-    $('#c50').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C50',
-            c50: val
-        });
-    })
-    $('#c20').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C20',
-            c20: val
-        });
-    })
-    $('#c10').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C10',
-            c10: val
-        });
-    })
-    $('#c5').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C5',
-            c5: val
-        });
-    })
-    $('#c2').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C2',
-            c2: val
-        });
-    })
-    $('#c1').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C1',
-            c1: val
-        });
-    })
-    $('#c-thu').bind("keyup change", function(e) {
-        if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-            var val = $(this).val()
-        }
-        val = $(this).val()
-        updateStore.dispatch({
-            type: 'UPDATE_C_THU',
-            c_thu: val
+            type: 'update_thu',
+            soto: val
         });
     })
 
     function clear() {
-        $('#c-thu').val('')
-        $('#c500').val('')
-        $('#c200').val('')
-        $('#c100').val('')
-        $('#c50').val('')
-        $('#c20').val('')
-        $('#c10').val('')
-        $('#c5').val('')
-        $('#c2').val('')
-        $('#c1').val('')
+        $('input[name="menhgia"]').val('')
+        $('input[name="c_thu"]').val('')
         updateStore.dispatch({
-            type: 'CLEAR'
+            type: 'clear'
         });
         $('#c500').focus();
     }
@@ -325,8 +243,8 @@ $list_menhgia = [
         clear()
     })
 
-    document.onkeydown = function(evt) {
-        evt = evt || window.event;
+    document.onkeydown = function(e) {
+        evt = e || window.event;
         var isEscape = false;
         if ("key" in evt) {
             isEscape = (evt.key === "Escape" || evt.key === "Esc");
@@ -341,69 +259,69 @@ $list_menhgia = [
     const updateReducer = (state = {}, actions) => {
         let {
             c_thu = '',
-                c500 = '',
-                c200 = '',
-                c100 = '',
-                c50 = '',
-                c20 = '',
-                c10 = '',
-                c5 = '',
-                c2 = '',
-                c1 = '',
+                st_500 = '',
+                st_200 = '',
+                st_100 = '',
+                st_50 = '',
+                st_20 = '',
+                st_10 = '',
+                st_5 = '',
+                st_2 = '',
+                st_1 = '',
         } = actions;
 
         switch (actions.type) {
-            case 'UPDATE_C_THU':
+            case 'update_thu':
                 return Object.assign({}, state, {
-                    c_thu: c_thu
+                    c_thu: actions.soto
                 });
-            case 'UPDATE_C500':
+            case 'update_c500':
                 return Object.assign({}, state, {
-                    c500: c500
+                    st_500: actions.soto
                 });
-            case 'UPDATE_C200':
+            case 'update_c200':
                 return Object.assign({}, state, {
-                    c200: c200
+                    st_200: actions.soto
                 });
-            case 'UPDATE_C100':
+            case 'update_c100':
                 return Object.assign({}, state, {
-                    c100: c100
+                    st_100: actions.soto
                 });
-            case 'UPDATE_C50':
+            case 'update_c50':
                 return Object.assign({}, state, {
-                    c50: c50
+                    st_50: actions.soto
                 });
-            case 'UPDATE_C20':
+            case 'update_c20':
                 return Object.assign({}, state, {
-                    c20: c20
+                    st_20: actions.soto
                 });
-            case 'UPDATE_C10':
+            case 'update_c10':
                 return Object.assign({}, state, {
-                    c10: c10
+                    st_10: actions.soto
                 });
-            case 'UPDATE_C5':
+            case 'update_c5':
                 return Object.assign({}, state, {
-                    c5: c5
+                    st_5: actions.soto
                 });
-            case 'UPDATE_C2':
+            case 'update_c2':
                 return Object.assign({}, state, {
-                    c2: c2
+                    st_2: actions.soto
                 });
-            case 'UPDATE_C1':
+            case 'update_c1':
                 return Object.assign({}, state, {
-                    c1: c1
+                    c1: actions.soto
                 });
-            case 'CLEAR':
+            case 'clear':
                 return Object.assign({}, state, {
-                    c500: 0,
-                    c200: 0,
-                    c100: 0,
-                    c50: 0,
-                    c20: 0,
-                    c10: 0,
-                    c5: 0,
-                    c2: 0,
-                    c1: 0,
+                    st_500: 0,
+                    st_200: 0,
+                    st_100: 0,
+                    st_50: 0,
+                    st_20: 0,
+                    st_10: 0,
+                    st_5: 0,
+                    st_2: 0,
+                    st_1: 0,
                     c_thu: 0,
                 });
         }
@@ -416,25 +334,25 @@ $list_menhgia = [
 
     function cash_cal(cashs) {
         var c_thu = ('c_thu' in cashs) ? cashs['c_thu'] : 0;
-        var c500 = ('c500' in cashs) ? cashs['c500'] : 0;
-        var c200 = ('c200' in cashs) ? cashs['c200'] : 0;
-        var c100 = ('c100' in cashs) ? cashs['c100'] : 0;
-        var c50 = ('c50' in cashs) ? cashs['c50'] : 0;
-        var c20 = ('c20' in cashs) ? cashs['c20'] : 0;
-        var c10 = ('c10' in cashs) ? cashs['c10'] : 0;
-        var c5 = ('c5' in cashs) ? cashs['c5'] : 0;
-        var c2 = ('c2' in cashs) ? cashs['c2'] : 0;
-        var c1 = ('c1' in cashs) ? cashs['c1'] : 0;
+        var st_500 = ('st_500' in cashs) ? cashs['st_500'] : 0;
+        var st_200 = ('st_200' in cashs) ? cashs['st_200'] : 0;
+        var st_100 = ('st_100' in cashs) ? cashs['st_100'] : 0;
+        var st_50 = ('st_50' in cashs) ? cashs['st_50'] : 0;
+        var st_20 = ('st_20' in cashs) ? cashs['st_20'] : 0;
+        var st_10 = ('st_10' in cashs) ? cashs['st_10'] : 0;
+        var st_5 = ('st_5' in cashs) ? cashs['st_5'] : 0;
+        var st_2 = ('st_2' in cashs) ? cashs['st_2'] : 0;
+        var st_1 = ('st_1' in cashs) ? cashs['st_1'] : 0;
 
-        c_nhan = (500000 * c500) +
-            (200000 * c200) +
-            (100000 * c100) +
-            (50000 * c50) +
-            (20000 * c20) +
-            (10000 * c10) +
-            (5000 * c5) +
-            (2000 * c2) +
-            (1000 * c1)
+        c_nhan = (500000 * st_500) +
+            (200000 * st_200) +
+            (100000 * st_100) +
+            (50000 * st_50) +
+            (20000 * st_20) +
+            (10000 * st_10) +
+            (5000 * st_5) +
+            (2000 * st_2) +
+            (1000 * st_1)
 
         c_thua = c_nhan - c_thu
 
