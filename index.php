@@ -242,7 +242,7 @@ $list_menhgia = [
         }
         $('input').eq(index).focus();
     });
-
+    //
     function clear() {
         $('input[name="menhgia"]').val('')
         $('input[name="c_thu"]').val('')
