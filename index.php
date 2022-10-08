@@ -229,6 +229,19 @@ $list_menhgia = [
             soto: val
         });
     })
+    $('input').keydown(function(e) {
+        var index = $('input').index(this);
+        if (e.which === 13) {
+            index = index + 1;
+        } else if (e.which === 38) {
+            e.preventDefault();
+            index = index - 1;
+        } else if (e.which === 40) {
+            e.preventDefault();
+            index = index + 1;
+        }
+        $('input').eq(index).focus();
+    });
 
     function clear() {
         $('input[name="menhgia"]').val('')
