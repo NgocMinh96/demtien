@@ -322,7 +322,7 @@ $list_menhgia = [
                 });
             case 'update_c1':
                 return Object.assign({}, state, {
-                    c1: actions.soto
+                    st_1: actions.soto
                 });
             case 'clear':
                 return Object.assign({}, state, {
